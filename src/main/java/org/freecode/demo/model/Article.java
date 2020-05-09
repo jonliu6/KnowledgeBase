@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.lang.Nullable;
+
 @Entity
 @Table(name="t_article")
 public class Article {
@@ -27,7 +29,7 @@ public class Article {
 	private String description;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_updated_at")
+	@Column(name="last_updated_at", nullable=true)
 	private Date lastUpdatedAt;
 
 	public Integer getId() {

@@ -15,7 +15,7 @@ CREATE TABLE t_article (
     title CHARACTER VARYING(100),
     category CHARACTER VARYING(50),
     description TEXT,
-    last_updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+    last_updated_at TIMESTAMP,
     CONSTRAINT pk_article_id PRIMARY KEY (id)
 );
 
