@@ -74,4 +74,34 @@
     </dependency>
 	
   </dependencies>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <!-- specify manifest -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>org.freecode.demo.SpringbootApplication</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+        <plugin>
+            <!-- this is to have a runnable jar you need to repackage the default jar. -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
 </project>
