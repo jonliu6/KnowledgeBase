@@ -5,6 +5,13 @@ Required software and libraries:
   - Apache Maven 3
   - SpringBoot 2
   - Hibernate 4
+
+To set up PostgreSQL database:
+  to initial setup and configuration, refer to http://jldevtest.blogspot.com/2018/10/set-up-postgressql-database.html for the following:
+  - createdb <database name>
+  - createuser -s <user name>
+  - psql -h <server name> -d <database name>
+  to create database objects, run src/main/resources/dbscripts.sql
   
 To build and run the application:
   mvn spring-boot:run
@@ -13,4 +20,5 @@ To test the application (e.g. using curl.exe):
   - search all articles: curl -X GET http://localhost:8080/articles/
   - search articles by category (e.g. Test): curl -X GET http://localhost:8080/articles/Test
   - add an article: curl -X POST -H "Content-Type: application/json" -d "{"""title""":"""2nd Article for testing purpose""","""category""":"""Test""","""description""":"""This is a test record added from SpringBoot RestController again."""}" http://localhost:8080/articles/add
-  - delete an article (e.g. by id 10008): curl -X DELETE http://localhost:8080/articles/10008
+    or curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"2nd Article for testing purpose\",\"category\":\"Test\",\"description\":\"This is a test record added from SpringBoot RestController again.\"}" http://localhost:8080/articles/add
+  - delete an article (e.g. by id 10008): curl -X DELETE http://localhost:8080/articles/10000
