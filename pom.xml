@@ -5,7 +5,7 @@
   <groupId>org.freecode.demo</groupId>
   <artifactId>KnowledgeBase</artifactId>
   <version>1.0</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging> <!-- jar or war -->
 
   <name>KnowledgeBase</name>
   <url>http://maven.apache.org</url>
@@ -54,6 +54,13 @@
 		<artifactId>spring-boot-starter-test</artifactId>
 		<scope>test</scope>
 	</dependency>
+
+      <!-- to deploy .war file to external application containers, no need tomcat embedded container, so specify as provided-->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+          <scope>provided</scope>
+      </dependency>
 	
 	<!-- PostgreSQL relational database -->
 	<dependency>
@@ -76,6 +83,7 @@
   </dependencies>
   
   <build>
+      <finalName>${artifactId}</finalName> <!-- final .war filename -->
     <plugins>
         <plugin>
             <!-- specify manifest -->
