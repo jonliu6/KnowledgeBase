@@ -126,6 +126,11 @@
             <!-- this is to have a runnable jar you need to repackage the default jar. -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <jvmArguments>
+                    -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8787
+                </jvmArguments>
+            </configuration>
             <executions>
                 <execution>
                     <goals>
