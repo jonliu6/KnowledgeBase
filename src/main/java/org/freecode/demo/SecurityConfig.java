@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         https.authorizeRequests()
                 .antMatchers("/register").permitAll() // anyone can access /register without authentication
                 .antMatchers("/confirm").permitAll()
+                .antMatchers("/articles").permitAll() // anyone can access /articles (RESTful web service URLs) without authentication
                 .anyRequest().authenticated() // the others will go thru authentication
                 .and()
                 .formLogin()
