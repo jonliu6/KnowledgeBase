@@ -3,7 +3,7 @@
 -- psql -h localhost -p 5432 -U postgres -W -d db_knowledge_base
 
 -- data structure scripts (DDL)
-CREATE SEQUENCE public.article_id_seq
+CREATE SEQUENCE public.seq_article_id
     START WITH 10000
     INCREMENT BY 1
     NO MINVALUE
@@ -11,7 +11,7 @@ CREATE SEQUENCE public.article_id_seq
     CACHE 1;
     
 CREATE TABLE t_article (
-    id INTEGER NOT NULL DEFAULT nextval('article_id_seq'),
+    id INTEGER NOT NULL DEFAULT nextval('seq_article_id'),
     title CHARACTER VARYING(100),
     category CHARACTER VARYING(50),
     description TEXT,
@@ -28,6 +28,7 @@ CREATE TABLE t_user (
     id CHARACTER VARYING(50),
     passwd CHARACTER VARYING(255),
     email CHARACTER VARYING(100),
+    role VARCHAR(100),
     CONSTRAINT pk_user_id PRIMARY KEY (id)
 );
 -- insert a test user with password as tester encrypted

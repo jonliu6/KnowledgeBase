@@ -1,9 +1,16 @@
 package org.freecode.demo.controller;
 
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.freecode.demo.model.User;
 import org.freecode.demo.service.EmailService;
 import org.freecode.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,11 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Map;
-import java.util.UUID;
-
 @Controller
 public class RegistrationController {
     @Autowired
@@ -26,6 +28,9 @@ public class RegistrationController {
     private UserService userSvc;
     @Autowired
     private EmailService emailSvc;
+
+    @Value("${app.email.authentication}")
+    private String appEmailAuth;
 
     @GetMapping("/register")
     public ModelAndView showRegistrationPage(ModelAndView mv, User user) {
@@ -50,12 +55,19 @@ public class RegistrationController {
         } else {
             // register a new user
             String token = UUID.randomUUID().toString();
+            user.setId(token);
             userSvc.saveUser(user);
             String appUrl = req.getScheme() + "://" + req.getServerName() + ":8080";
             String msg = "To set your password, please click on the link below:\n" + appUrl + "/confirm?token=" + token;
-            emailSvc.sendEmail(user.getEmail(), "Reset your password", msg);
 
-            mv.addObject("confirmationMsg", "A password reset e-mail has been sent to " + user.getEmail());
+            if (appEmailAuth.equals("true")) {
+              emailSvc.sendEmail(user.getEmail(), "Reset your password", msg);
+              mv.addObject("confirmationMsg", "A password reset e-mail has been sent to " + user.getEmail());
+            }
+            else {
+              mv.addObject("confirmationMsg", msg);
+            }
+
             mv.setViewName("register");
         }
 
@@ -64,12 +76,12 @@ public class RegistrationController {
 
     @GetMapping("/confirm")
     public ModelAndView confirmRegistration(ModelAndView mv, @RequestParam("token") String token) {
-        User user = userSvc.findByEmail(token); // Todo: implement findByConfirmationToken
+        User user = userSvc.findByToken(token);
 
         if (user == null) {
             mv.addObject("invalidToken", "Invalid confirmation link.");
         } else {
-            mv.addObject("confirmationToken", user.getEmail()); // Todo change to getConfirmationToken()
+            mv.addObject("confirmationToken", user.getEmail());
         }
 
         mv.setViewName("confirm");
@@ -85,7 +97,7 @@ public class RegistrationController {
         userSvc.saveUser(user);
 
         mv.setViewName("confirm");
-        mv.addObject("successMsg", "Password set okay.");
+        mv.addObject("successMsg", "Password set okay. Please proceed to <a href=\"/login\">login</a>.");
 
         return mv;
     }

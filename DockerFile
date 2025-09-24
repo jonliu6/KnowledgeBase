@@ -1,5 +1,5 @@
-FROM openjdk:11-slim
+FROM openjdk:21-slim
 COPY ./target/KnowledgeBase-1.0.jar /usr/app/KnowledgeBase-1.0.jar
-WORKDIR /usr/app
+WORKDIR c:/Temp
 RUN sh -c "touch KnowledgeBase-1.0.jar"
 ENTRYPOINT ["java", "-Dspring.profiles.active=container", "-jar", "KnowledgeBase-1.0.jar"]

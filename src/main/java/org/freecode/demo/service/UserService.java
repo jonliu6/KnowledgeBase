@@ -1,8 +1,7 @@
 package org.freecode.demo.service;
 
-import org.freecode.demo.model.UserDetailsImpl;
-
 import org.freecode.demo.model.User;
+import org.freecode.demo.model.UserDetailsImpl;
 import org.freecode.demo.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +16,10 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository aUserRepo) {
         this.userRepo = aUserRepo;
+    }
+
+    public User findByToken(String token) {
+        return userRepo.findById(token).orElse(null);
     }
 
     public User findByEmail(String email) {
